@@ -17,7 +17,8 @@ defmodule Pollutiondb.Application do
       # Start a worker by calling: Pollutiondb.Worker.start_link(arg)
       # {Pollutiondb.Worker, arg},
       # Start to serve requests, typically the last entry
-      PollutiondbWeb.Endpoint
+      Pollutiondb.Streamer,
+      PollutiondbWeb.Endpoint,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
