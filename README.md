@@ -69,7 +69,7 @@ System opiera się na rozproszonym modelu aktorów platformy Erlang/BEAM:
 
 1. **Sklonuj repozytorium:**
    ```bash
-   git clone https://github.com/<twoj-login>/pollution-app.git
+   git clone https://github.com/juliet2112/pollution-app.git
    cd pollution-app
    ```
 
