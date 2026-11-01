@@ -1,6 +1,6 @@
-# Real-Time Environmental Telemetry Platform
+# Environmental Data Replay Dashboard
 
-> A reactive web application built with **Elixir & Phoenix LiveView** for streaming and visualizing data from measurement stations in real-time.
+> A reactive web application built with **Elixir & Phoenix LiveView** for streaming and visualizing data from measurement stations.
 
 ---
 
