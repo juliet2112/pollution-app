@@ -1,6 +1,6 @@
 # Real-Time Environmental Telemetry Platform
 
-> Reaktywna aplikacja webowa w **Elixir & Phoenix LiveView** do strumieniowania i wizualizacji danych ze stacji pomiarowych w czasie rzeczywistym.
+> A reactive web application built with **Elixir & Phoenix LiveView** for streaming and visualizing data from measurement stations in real-time.
 
 ---
 
@@ -10,19 +10,19 @@
 
 ---
 
-## Stos technologiczny
+## Tech Stack
 
-* **Język:** Elixir 1.20+
+* **Language:** Elixir 1.20+
 * **Framework:** Phoenix Framework & Phoenix LiveView (v0.20+)
-* **Architektura asynchroniczna:** OTP `GenServer`, `Phoenix.PubSub`, WebSockets
-* **Warstwa danych:** Ecto & SQLite3
-* **Interfejs użytkownika:** Phoenix HEEx & Tailwind CSS
+* **Asynchronous Architecture:** OTP `GenServer`, `Phoenix.PubSub`, WebSockets
+* **Data Layer:** Ecto & SQLite3
+* **User Interface:** Phoenix HEEx & Tailwind CSS
 
 ---
 
-## 🏛 Architektura systemu
+## System Architecture
 
-System opiera się na rozproszonym modelu aktorów platformy Erlang/BEAM:
+The system is based on the Erlang/BEAM platform's distributed actor model:
 
 ```text
 [ SQLite3 Database ]
@@ -35,43 +35,42 @@ System opiera się na rozproszonym modelu aktorów platformy Erlang/BEAM:
        │
        ▼ (LiveView DOM Diffing: append-only stream)
 [ Client Browser (LiveView Streams & CSS Animations) ]
-```
+ ```
 
-1. **Silnik telemetryczny (`Pollutiondb.Streamer`):**
-   * Stanowy proces `GenServer` zarządzający wirtualnym zegarem i kursorem osi czasu w bazie danych.
-   * Cykliczna emisja paczek odczytów (`:batch`) przez `Phoenix.PubSub` co 1 sekundę (`Process.send_after/3`).
-   * Płynne zapętlanie osi czasu po osiągnięciu końca dostępnych danych historycznych.
-2. **Reaktywny widok (`PollutiondbWeb.ReadingLive`):**
-   * Asynchroniczny odbiór zdarzeń z PubSub za pomocą `handle_info/2`.
-   * Bezstanowy, append-only strumień logów zrealizowany za pomocą `phx-update="stream"`, eliminujący narzut pamięciowy w DOM przeglądarki.
-   * Dynamiczny selektor stacji (`handle_event/3`) wywołujący asynchroniczną zmianę parametrów w `Streamerze` oraz czyszczenie interfejsu (`reset: true`).
+1. **Telemetry Engine (`Pollutiondb.Streamer`):**
+   * Stateful `GenServer` process managing a virtual clock and a database timeline cursor.
+   * Periodic broadcasting of reading batches (`:batch`) via `Phoenix.PubSub` every 1 second (`Process.send_after/3`).
+   * Seamless timeline looping upon reaching the end of available historical data.
+2. **Reactive View (`PollutiondbWeb.ReadingLive`):**
+   * Asynchronous PubSub event handling using `handle_info/2`.
+   * Stateless, append-only log stream implemented via `phx-update="stream"`, eliminating memory overhead in the browser DOM.
+   * Dynamic station selector (`handle_event/3`) that triggers asynchronous parameter updates in the `Streamer` and clears the interface (`reset: true`).
 
 ---
 
-## ⚙️ Uruchomienie lokalne
+## Local Setup
 
-### Wymagania wstępne
-* Zainstalowany **Elixir** oraz **Erlang/OTP**
-* Narzędzie `mix`
+### Prerequisites
+* **Elixir** and **Erlang/OTP** installed
+* The `mix` build tool
 
-### Kroki instalacji
+### Installation Steps
 
-1. **Sklonuj repozytorium:**
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/juliet2112/pollution-app.git
    cd pollution-app
    ```
 
-2. **Pobierz zależności i zainicjalizuj bazę danych:**
+2. **Fetch dependencies and initialize the database:**
    ```bash
    mix setup
    ```
 
-3. **Uruchom serwer Phoenix:**
+3. **Start the Phoenix server:**
    ```bash
    mix phx.server
    ```
-   *(lub w konsoli interaktywnej IEx: `iex -S mix phx.server`)*
 
-4. **Otwórz aplikację w przeglądarce:**
-   Przejdź pod adres: [`http://localhost:4000`](http://localhost:4000)
+4. **Open the application in your browser:**
+   Navigate to: [`http://localhost:4000`](http://localhost:4000)
